@@ -2,10 +2,10 @@
   <div class="vux-slider">
     <div class="vux-swiper" :style="{height: xheight}">
       <slot></slot>
-      <div class="vux-swiper-item" v-for="item in list" @click="clickListItem(item)">
+      <div class="vux-swiper-item" v-for="(index, item) in list" @click="clickListItem(item)" :data-index="index">
         <a href="javascript:">
           <div class="vux-img" :style="{backgroundImage: buildBackgroundUrl(item.img)}"></div>
-          <p class="vux-swiper-desc">{{item.title}}</p>
+          <p class="vux-swiper-desc" v-if="showDescMask">{{item.title}}</p>
         </a>
       </div>
     </div>
@@ -37,6 +37,7 @@ export default {
       return `url(${url})`
     },
     render () {
+      this.swiper && this.swiper.destroy()
       this.swiper = new Swiper({
         container: this.$el,
         direction: this.direction,
@@ -50,8 +51,8 @@ export default {
         imgList: this.imgList
       })
       .on('swiped', (prev, index) => {
-        this.current = index
-        this.index = index
+        this.current = index % this.length
+        this.index = index % this.length
       })
     },
     rerender () {
@@ -77,11 +78,7 @@ export default {
         if (this.aspectRatio) {
           return this.$el.offsetWidth * this.aspectRatio + 'px'
         }
-        if (this.list.length) {
-          return '180px'
-        } else {
-          return 'auto'
-        }
+        return '180px'
       }
     }
   },
@@ -97,6 +94,10 @@ export default {
       default: 'horizontal'
     },
     showDots: {
+      type: Boolean,
+      default: true
+    },
+    showDescMask: {
       type: Boolean,
       default: true
     },
@@ -238,6 +239,7 @@ export default {
           height: 1.4em;
           font-size: 16px;
           padding: 20px 50px 12px 13px;
+          margin: 0;
           background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, .7) 100%);
           color: #fff;
           text-shadow: 0 1px 0 rgba(0, 0, 0, .5);

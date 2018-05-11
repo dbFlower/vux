@@ -1,11 +1,15 @@
 <template>
-  <a class="weui_cell" href="javascript:">
-    <div class="weui_cell_bd weui_cell_primary">
-      <p>{{title}}</p>
-      <inline-desc v-if="inlineDesc">{{inlineDesc}}</inline-desc>
-    </div>
-    <div class="weui_cell_ft with_arrow vux-datetime-value">{{value || placeholder}}</div>
-  </a>
+ 
+    <a class="weui_cell" href="javascript:">
+      <slot>
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>{{title}}</p>
+          <inline-desc v-if="inlineDesc">{{inlineDesc}}</inline-desc>
+        </div>
+        <div class="weui_cell_ft with_arrow vux-datetime-value">{{value || placeholder}}</div>
+      </slot>
+    </a>
+ 
 </template>
 
 <script>
@@ -45,6 +49,10 @@ export default {
       type: String,
       default: 'cancel'
     },
+    clearText: {
+      type: String,
+      default: ''
+    },
     yearRow: {
       type: String,
       default: '{value}'
@@ -66,6 +74,9 @@ export default {
       default: '{value}'
     }
   },
+  created () {
+    this.handleChangeEvent = true
+  },
   ready () {
     const uuid = this.uuid
     this.$el.setAttribute('id', 'vux-datetime-' + uuid)
@@ -81,6 +92,7 @@ export default {
         output: '.vux-datetime-value',
         confirmText: this.confirmText,
         cancelText: _this.cancelText,
+        clearText: _this.clearText,
         yearRow: this.yearRow,
         monthRow: this.monthRow,
         dayRow: this.dayRow,
@@ -88,6 +100,9 @@ export default {
         minuteRow: this.minuteRow,
         onConfirm (value) {
           _this.value = value
+        },
+        onClear (value) {
+          _this.$emit('on-clear', value)
         }
       }
       if (this.minYear) {

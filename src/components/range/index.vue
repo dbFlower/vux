@@ -29,10 +29,7 @@ export default {
       default: 0
     },
     disabled: Boolean,
-    disabledOpacity: {
-      type: Number,
-      default: 0.75
-    },
+    disabledOpacity: Number,
     rangeBarHeight: {
       type: Number,
       default: 1
@@ -51,7 +48,8 @@ export default {
       minHTML: this.minHTML,
       maxHTML: this.maxHTML,
       disable: this.disabled,
-      disabledOpacity: this.disabledOpacity
+      disabledOpacity: this.disabledOpacity,
+      initialBarWidth: getComputedStyle(this.$el.parentNode).width.replace('px', '') - 80
     }
     if (this.step !== 0) {
       options.step = this.step
@@ -64,12 +62,25 @@ export default {
   watch: {
     value (val) {
       this.range.setStart(val)
+    },
+    'min + max': function () {
+      let value = this.value
+      if (value < this.min) {
+        value = this.min
+      }
+      if (value > this.max) {
+        value = this.max
+      }
+      this.range.reInit({min: this.min, max: this.max, value: value})
+      this.value = value
+      this.range.setStart(this.value)
     }
   }
 }
 </script>
 
-<style>
-@import './powerange.css';
+<style lang="less">
+@import '../../styles/variable.less';
+@import './powerange.less';
 </style>
 

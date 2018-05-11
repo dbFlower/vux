@@ -70,12 +70,15 @@
       <cell title="toast" link="component/toast">
         <span class="demo-icon" slot="icon">&#xe625;</span>
       </cell>
-    </group>
-
-    <group title="UI" title-color="#04be02">
+      <cell title="popover" link="component/popover">
+        <span class="demo-icon" slot="icon">&#xe65f;</span>
+      </cell>
       <cell title="actionsheet" link="component/actionsheet">
         <span class="demo-icon" slot="icon">&#xe624;</span>
       </cell>
+    </group>
+
+    <group title="UI" title-color="#04be02">
       <cell title="badge" link="component/badge">
         <span class="demo-icon" slot="icon" style="color:#f74c31;">&#xe65b;</span>
       </cell>
@@ -102,6 +105,9 @@
       </cell>
       <cell title="icon" link="component/icon">
         <span class="demo-icon" slot="icon">&#xe619;</span>
+      </cell>
+      <cell title="divider" link="component/divider">
+        <span class="demo-icon" slot="icon">&#xe65d;</span>
       </cell>
       <cell title="panel" link="component/panel">
         <span class="demo-icon" slot="icon">&#xe658;</span>
@@ -130,9 +136,6 @@
       <cell title="swiper" link="component/swiper">
         <span class="demo-icon" slot="icon">&#xe612;</span>
       </cell>
-      <cell title="x-swiper" link="component/x-swiper">
-        <span class="demo-icon" slot="icon">&#xe612;</span>
-      </cell>
       <cell title="sticky" link="component/sticky">
         <span class="demo-icon" slot="icon">&#xe623;</span>
       </cell>
@@ -153,6 +156,9 @@
       </cell>
       <cell title="timeline" link="component/timeline">
         <span class="demo-icon" slot="icon">&#xe656;</span>
+      </cell>
+      <cell title="step" link="component/step">
+        <span class="demo-icon" slot="icon">&#xe65e;</span>
       </cell>
       <cell title="x-header" link="component/x-header">
         <span class="demo-icon" slot="icon">&#xe654;</span>
@@ -213,6 +219,10 @@
       <cell title="Close icon" value="关闭字符" link="component/close"></cell>
     </group>
 
+     <group title="Plugins" title-color="#04be02">
+      <cell title="Device" value="简单设备信息检测" link="plugin/device"></cell>
+    </group>
+
     <group title="TODO" title-color="#04be02" v-if="showTodo">
       <cell title="短信验证组件" link="component/address"></cell>
       <cell title="图片验证码" link="component/rater"></cell>
@@ -229,7 +239,7 @@
     </group>
 
     <group title="Todo" title-color="#04be02" style="display: none;">
-      <cell title="Step" link="component/radio">
+      <cell title="Step" link="component/step">
         <span class="demo-icon" slot="icon">&#xe62c;</span>
       </cell>
     </group>
@@ -270,7 +280,6 @@ export default {
 body {
   font-family: Helvetica, sans-serif;
   background-color: #fbf9fe;
-  padding-bottom: 50px;
 }
 
 .firefox .weui_cells:after {

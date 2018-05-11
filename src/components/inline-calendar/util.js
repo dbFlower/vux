@@ -55,7 +55,7 @@ function isBetween (value, start, end) {
   return isGte && isLte
 }
 
-export function getDays ({year, month, value, isRange = false, rangeBegin, rangeEnd, returnSixRows = true, disablePast = false}) {
+export function getDays ({year, month, value, isRange = false, rangeBegin, rangeEnd, returnSixRows = true, disablePast = false, disableFuture = false}) {
   let today = format(new Date(), 'YYYY-MM-DD')
   let startOfToday = new Date()
   startOfToday.setHours(0, 0, 0, 0)
@@ -74,6 +74,15 @@ export function getDays ({year, month, value, isRange = false, rangeBegin, range
       rangeBegin = startOfToday
     } else {
       rangeBegin = Math.max(startOfToday.getTime(), getTime(rangeBegin))
+    }
+  }
+
+  // if disableFuture === true
+  if (disableFuture) {
+    if (!rangeEnd) {
+      rangeEnd = startOfToday
+    } else {
+      rangeEnd = Math.min(startOfToday.getTime(), getTime(rangeEnd))
     }
   }
 
@@ -141,9 +150,9 @@ export function getDays ({year, month, value, isRange = false, rangeBegin, range
   if (returnSixRows && temp.length === 5) {
     let rs = getNextTime(year, month)
     let start = temp[4][6].isNextMonth ? temp[4][6].day : 0
-    temp[6] = []
+    temp[5] = []
     for (let i = 0; i < 7; i++) {
-      temp[6].push({
+      temp[5].push({
         year: rs.year,
         month: rs.month,
         month_str: rs.month + 1,
@@ -158,10 +167,10 @@ export function getDays ({year, month, value, isRange = false, rangeBegin, range
   if (returnSixRows && temp.length === 4) {
     let rs = getNextTime(year, month)
     let start = 0
+    temp[4] = []
     temp[5] = []
-    temp[6] = []
     for (let i = 0; i < 7; i++) {
-      temp[5].push({
+      temp[4].push({
         year: rs.year,
         month: rs.month,
         month_str: rs.month + 1,
@@ -169,7 +178,7 @@ export function getDays ({year, month, value, isRange = false, rangeBegin, range
         disabled: true,
         isNextMonth: true
       })
-      temp[6].push({
+      temp[5].push({
         year: rs.year,
         month: rs.month,
         month_str: rs.month + 1,
