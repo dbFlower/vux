@@ -1,28 +1,46 @@
 <template>
   <div>
-    <img class="previewer-demo-img" v-for="(index, item) in list" :src="item.src" width="100" @click="$refs.previewer.show(index)">
-    <previewer :list="list" v-ref:previewer :options="options"></previewer>
+    <img class="previewer-demo-img" v-for="(item, index) in list" :src="item.src" width="100" @click="show(index)">
+    <div v-transfer-dom>
+      <previewer :list="list" ref="previewer" :options="options" @on-index-change="logIndexChange"></previewer>
+    </div>
   </div>
 </template>
 
 <script>
-import { Previewer } from '../components'
+import { Previewer, TransferDom } from 'vux'
 
 export default {
+  directives: {
+    TransferDom
+  },
   components: {
     Previewer
+  },
+  methods: {
+    logIndexChange (arg) {
+      console.log(arg)
+    },
+    show (index) {
+      this.$refs.previewer.show(index)
+    }
   },
   data () {
     return {
       list: [{
-        src: 'https://placekitten.com/600/400',
-        w: 600,
+        msrc: 'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
+        src: 'http://ww1.sinaimg.cn/large/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
+        w: 800,
         h: 400
       },
       {
-        src: 'https://placekitten.com/1200/900',
+        msrc: 'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwvqwuoaj20xc0p0t9s.jpg',
+        src: 'http://ww1.sinaimg.cn/large/663d3650gy1fplwvqwuoaj20xc0p0t9s.jpg',
         w: 1200,
         h: 900
+      }, {
+        msrc: 'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwwcynw2j20p00b4js9.jpg',
+        src: 'http://ww1.sinaimg.cn/large/663d3650gy1fplwwcynw2j20p00b4js9.jpg'
       }],
       options: {
         getThumbBoundsFn (index) {
@@ -43,3 +61,4 @@ export default {
   }
 }
 </script>
+
